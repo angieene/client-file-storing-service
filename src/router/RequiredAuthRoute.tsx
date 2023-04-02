@@ -5,7 +5,7 @@ import Layout from '../components/layout';
 import { Routes } from '../utils/constants';
 
 const RequiredAuthRoute: FC<PropsWithChildren> = ({ children }) => {
-  if (true) {
+  if (false) {
     return <Layout>{children}</Layout>;
   }
   return <Navigate to={Routes.Login} />;
