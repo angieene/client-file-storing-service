@@ -1,21 +1,10 @@
 import React, { FC, MouseEvent } from 'react';
-import {
-  Breadcrumbs,
-  InputAdornment,
-  Link,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Breadcrumbs, InputAdornment, Link, Typography } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
-import LogoIcon from '../icons/header/LogoIcon';
 import ActionsList from '../actions';
-import {
-  StyledHeader,
-  StyledStack,
-  StyledTextField,
-  StyledTypography,
-} from './style';
+import { StyledHeader, StyledStack, StyledTextField } from './style';
+import Logo from '../logo';
 
 interface HeaderProps {
   open: boolean;
@@ -33,6 +22,7 @@ const Header: FC<HeaderProps> = ({
   return (
     <StyledHeader>
       <StyledStack>
+        <Logo />
         <StyledTextField
           InputProps={{
             sx: { background: 'white', minWidth: '400px' },
