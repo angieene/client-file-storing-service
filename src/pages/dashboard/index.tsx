@@ -1,51 +1,59 @@
-import {
-  TextField,
-  Container,
-  Paper,
-  IconButton,
-  Divider,
-  InputBase,
-} from '@mui/material';
-import React from 'react';
-import Palette from '../../palette';
-import SearchIcon from '@mui/icons-material/Search';
+import { useEffect, useMemo, useState } from 'react';
+import { Container } from '@mui/material';
+
+import Table from '../../components/table';
+import { folderService } from '../../services/FolderService';
+
+export interface IData {
+  name: string;
+  updated_at: string;
+  size: number;
+}
 
 const Dashboard = () => {
+  const [data, setData] = useState<IData[]>([]);
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Name',
+        accessor: 'name',
+      },
+      {
+        Header: 'Updated at',
+        accessor: 'updated_at',
+      },
+      {
+        Header: 'Size',
+        accessor: 'size',
+      },
+      {
+        Header: 'Actions',
+        accessor: '',
+      },
+    ],
+    []
+  );
+
+  useEffect(() => {
+    folderService
+      .getAll()
+      .then((res: IData[]) => {
+        setData(res);
+      })
+      .catch((err: string) => console.log(err));
+  }, []);
+
   return (
     <Container maxWidth="xl">
-      <Paper
-        component="form"
-        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
-      >
-        <InputBase
-          sx={{ ml: 1, flex: 1 }}
-          placeholder="Search Google Maps"
-          inputProps={{ 'aria-label': 'search google maps' }}
-        />
-        <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-
-        <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-          <SearchIcon />
-        </IconButton>
-      </Paper>
+      {/* <StyledFoldersWrapper>
+        <Typography variant="h5"> Folders</Typography>
+      </StyledFoldersWrapper>
+      <StyledFoldersWrapper>
+        <Typography variant="h5"> Files</Typography>
+      </StyledFoldersWrapper> */}
+      <Table columns={columns} data={data} />
     </Container>
   );
 };
 
 export default Dashboard;
-
-//   <Paper
-//     component="form"
-//     sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
-//   >
-//     <InputBase
-//       sx={{ ml: 1, flex: 1 }}
-//       placeholder="Search Google Maps"
-//       inputProps={{ 'aria-label': 'search google maps' }}
-//     />
-//     <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-
-//     <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-//       <SearchIcon />
-//     </IconButton>
-//   </Paper>

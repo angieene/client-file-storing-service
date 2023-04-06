@@ -1,33 +1,81 @@
-import React, { FC, PropsWithChildren } from 'react';
-import { Stack, Typography } from '@mui/material';
+import React, {
+  FC,
+  PropsWithChildren,
+  useState,
+  MouseEvent,
+  useCallback,
+} from 'react';
+import { Checkbox, DialogContentText, FormControlLabel } from '@mui/material';
 
-import LogoIcon from '../icons/header/LogoIcon';
-import { StyledWrapper, StyledMain, StyledMenu, StyledPanel } from './style';
+import { StyledWrapper, StyledMain } from './style';
+import Modal from '../modal';
+import Dropzone from '../dropzone';
+import Header from '../header';
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
-  const list = ['Dashboard', 'My Files', 'Shared'];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [files, setFiles] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(!open);
+  const handleClose = () => setOpen(false);
+
+  const handleClick = (e: MouseEvent<HTMLElement>, operation: string) => {
+    e.preventDefault();
+    if (operation == 'files') {
+      setIsModalOpen(true);
+    }
+    // } else if (operation == 'tag') {
+    // }
+    setOpen(!open);
+  };
+
+  const handleModalSave = () => {
+    setIsModalOpen(false);
+  };
+  const handleModalCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDropFiles = useCallback((acceptedFiles: File[]) => {
+    acceptedFiles.map((file) => {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+      return file;
+    });
+  }, []);
+
   return (
-    <StyledWrapper>
-      <StyledMenu>
-        <Stack
-          direction="row"
-          spacing={2}
-          sx={{ display: 'flex', alignItems: 'center', mb: 3 }}
-        >
-          <LogoIcon fill={'#000000'} size={40} />
-          <Typography variant="h6" sx={{ fontWeight: '700' }}>
-            File Service
-          </Typography>
-        </Stack>
-        <Stack spacing={2}>
-          {list.map((el) => (
-            <Typography variant="body1">{el}</Typography>
-          ))}
-        </Stack>
-      </StyledMenu>
-      <StyledMain> {children}</StyledMain>
-      <StyledPanel>sdfsd</StyledPanel>
-    </StyledWrapper>
+    <>
+      <StyledWrapper>
+        <Header
+          open={open}
+          handleOpen={handleOpen}
+          handleClose={handleClose}
+          handleClick={handleClick}
+        />
+        <StyledMain>{children}</StyledMain>
+      </StyledWrapper>
+      <Modal
+        isOpen={isModalOpen}
+        modalTitle="Drag and drop files"
+        children={
+          <>
+            <FormControlLabel
+              value="IsPublic"
+              control={<Checkbox />}
+              label="Is public"
+              labelPlacement="end"
+            />
+            <Dropzone onDrop={handleDropFiles} />
+            <DialogContentText></DialogContentText>
+          </>
+        }
+        handleSave={handleModalSave}
+        handleCancel={handleModalCancel}
+      />
+    </>
   );
 };
 

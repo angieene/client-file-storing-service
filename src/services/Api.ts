@@ -1,24 +1,17 @@
-import axios, {
-  AxiosInstance,
-  AxiosRequestConfig,
-  InternalAxiosRequestConfig,
-} from 'axios';
-
-// import Pages from '@/constants/pages';
-// import store from '@/store';
-
-// import { authService } from './AuthService';
+import axios, { AxiosInstance } from 'axios';
+import { Routes } from '../utils/constants';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
 export const api: AxiosInstance = axios.create({
   baseURL: API_URL,
 
+  withCredentials: true,
   headers: {
-    mode: 'cors',
+    'Access-Control-Allow-Credentials': true,
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
-    accept: 'application/json',
+    Accept: 'application/json',
   },
 });
 
@@ -31,14 +24,13 @@ export const api: AxiosInstance = axios.create({
 //   }
 // );
 
-// api.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     if (error?.response?.status === 401) {
-//       // window.location.href = Pages.AUTORIZATION;
-//       // authService.logout(dispatch);
-//     }
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error?.response?.status === 401) {
+      window.location.href = Routes.Login;
+    }
 
-//     return Promise.reject(error);
-//   }
-// );
+    return Promise.reject(error);
+  }
+);

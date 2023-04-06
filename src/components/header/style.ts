@@ -1,4 +1,4 @@
-import { Backdrop, IconButton } from '@mui/material';
+import { Backdrop, IconButton, TextField, Typography } from '@mui/material';
 import styled from 'styled-components';
 import Palette from '../../palette';
 
@@ -33,4 +33,33 @@ export const StyledStack = styled.div`
 
 export const StyledIconButton = styled(IconButton).attrs({
   sx: { color: 'white', background: 'grey' },
+})``;
+
+export const StyledTextField = styled(TextField).attrs({
+  size: 'small',
+  sx: {
+    m: '0 auto',
+    '& label.Mui-focused': {
+      color: 'white',
+    },
+    '& .MuiInput-underline:after': {
+      border: 'none',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white',
+      },
+      '&:hover fieldset': {
+        borderColor: 'white',
+      },
+      '&.Mui-focused fieldset': {
+        border: 'none',
+      },
+    },
+  },
+})``;
+
+export const StyledTypography = styled(Typography).attrs({
+  variant: 'h6',
+  sx: { fontWeight: '700' },
 })``;

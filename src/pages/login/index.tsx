@@ -2,12 +2,12 @@ import React from 'react';
 import { Button, Typography } from '@mui/material';
 import { Container } from '@mui/system';
 
-import { authService } from '../../services/AuthService';
 import Palette from '../../palette';
+import { authService } from '../../services/AuthService';
 
 const Login = () => {
   const handleRegistration = async () => {
-    await authService.authorization();
+    window.location.href = 'http://localhost:3001/auth';
   };
 
   return (
@@ -27,12 +27,14 @@ const Login = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         borderRadius: 4,
+        gap: 4,
       }}
     >
       <Typography variant="h4">Sing in/Sing up</Typography>
       <Button variant="outlined" size="large" onClick={handleRegistration}>
         Google auth
       </Button>
+      <Typography variant="body2">Need help?</Typography>
     </Container>
   );
 };
