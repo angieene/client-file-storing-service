@@ -1,6 +1,5 @@
-import { Backdrop, IconButton, TextField, Typography } from '@mui/material';
+import { IconButton, TextField, Typography } from '@mui/material';
 import styled from 'styled-components';
-import Palette from '../../palette';
 
 export const StyledWrapper = styled.div`
   margin: 2rem 5rem;

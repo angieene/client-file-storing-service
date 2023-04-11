@@ -1,8 +1,11 @@
-import { api } from './Api';
+// import { api } from './Api';
+import { storageService } from './StorageService';
 
 class AuthService {
-  //isLoggedin(): boolean {
-  // }
+  logout() {
+    storageService.remove('access_token');
+  }
+  isLogin = (): boolean => !!storageService.get('access_token');
 }
 
 export const authService = new AuthService();

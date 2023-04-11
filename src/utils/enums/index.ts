@@ -1,5 +1,6 @@
 export enum RouteKeys {
-  Login = "login",
-  Dashboard = "dashboard",
-  Profile = "profile",
+  Login = 'login',
+  Dashboard = 'dashboard',
+  Folder = 'folder',
+  Callback = 'callback',
 }

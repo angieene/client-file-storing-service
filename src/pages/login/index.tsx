@@ -1,13 +1,14 @@
 import React from 'react';
+
 import { Button, Typography } from '@mui/material';
 import { Container } from '@mui/system';
 
 import Palette from '../../palette';
-import { authService } from '../../services/AuthService';
 
 const Login = () => {
   const handleRegistration = async () => {
-    window.location.href = 'http://localhost:3001/auth';
+    if (process.env.REACT_APP_GOOGLE_AUTH)
+      window.location.href = process.env.REACT_APP_GOOGLE_AUTH;
   };
 
   return (

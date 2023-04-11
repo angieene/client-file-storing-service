@@ -1,10 +1,12 @@
 import React, { FC, ReactNode } from 'react';
+
 import {
   Button,
   DialogActions,
   DialogContent,
   DialogTitle,
 } from '@mui/material';
+
 import { StyledDialog } from './style';
 
 interface Props {

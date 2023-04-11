@@ -5,15 +5,29 @@ import React, {
   MouseEvent,
   useCallback,
 } from 'react';
-import { Checkbox, DialogContentText, FormControlLabel } from '@mui/material';
 
-import { StyledWrapper, StyledMain } from './style';
-import Modal from '../modal';
+import {
+  Checkbox,
+  DialogContentText,
+  FormControlLabel,
+  TextField,
+} from '@mui/material';
+
+import { folderService } from '../../services/FolderService';
 import Dropzone from '../dropzone';
 import Header from '../header';
+import Modal from '../modal';
+import { StyledWrapper, StyledMain } from './style';
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalAddFolderOpen, setIsModalAddFolderOpen] = useState(false);
+  const [folderBody, setFolderBody] = useState({
+    name: '',
+    parentFolderId: '',
+  });
+
   const [files, setFiles] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -22,11 +36,17 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 
   const handleClick = (e: MouseEvent<HTMLElement>, operation: string) => {
     e.preventDefault();
-    if (operation == 'files') {
-      setIsModalOpen(true);
+    switch (operation) {
+      case 'files':
+        setIsModalOpen(true);
+        break;
+      case 'folder':
+        setIsModalAddFolderOpen(true);
+        break;
+
+      default:
+        break;
     }
-    // } else if (operation == 'tag') {
-    // }
     setOpen(!open);
   };
 
@@ -37,6 +57,14 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     setIsModalOpen(false);
   };
 
+  const handleCreateFolder = () => {
+    createFolder();
+    setIsModalAddFolderOpen(false);
+  };
+  const handleCancelCreateFolder = () => {
+    setIsModalAddFolderOpen(false);
+  };
+
   const handleDropFiles = useCallback((acceptedFiles: File[]) => {
     acceptedFiles.map((file) => {
       const reader = new FileReader();
@@ -45,6 +73,10 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
       return file;
     });
   }, []);
+
+  const createFolder = useCallback(() => {
+    folderService.createFolder(folderBody).catch((err) => setIsAlertOpen(true));
+  }, [folderBody]);
 
   return (
     <>
@@ -74,6 +106,23 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
         }
         handleSave={handleModalSave}
         handleCancel={handleModalCancel}
+      />
+      <Modal
+        isOpen={isModalAddFolderOpen}
+        modalTitle="Add folder"
+        children={
+          <>
+            <TextField
+              value={folderBody.name}
+              onChange={(e) =>
+                setFolderBody((prev) => ({ ...prev, name: e.target.value }))
+              }
+              placeholder="Enter folder name"
+            />
+          </>
+        }
+        handleSave={handleCreateFolder}
+        handleCancel={handleCancelCreateFolder}
       />
     </>
   );
