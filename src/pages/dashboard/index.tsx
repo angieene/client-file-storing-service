@@ -1,16 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Container } from '@mui/material';
+
+import { CircularProgress, Container } from '@mui/material';
 
 import Table from '../../components/table';
 import { folderService } from '../../services/FolderService';
-
-export interface IData {
-  name: string;
-  updated_at: string;
-  size: number;
-}
+import { IData } from '../../utils/types';
 
 const Dashboard = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<IData[]>([]);
   const columns = useMemo(
     () => [
@@ -26,31 +23,25 @@ const Dashboard = () => {
         Header: 'Size',
         accessor: 'size',
       },
-      {
-        Header: 'Actions',
-        accessor: '',
-      },
     ],
-    []
+    [],
   );
 
   useEffect(() => {
+    setIsLoading(true);
     folderService
-      .getAll()
-      .then((res: IData[]) => {
-        setData(res);
+      .getRootFolder()
+      .then((res: IData) => {
+        setIsLoading(false);
+        setData(res.childFolders);
       })
       .catch((err: string) => console.log(err));
   }, []);
 
+  if (isLoading) return <CircularProgress />;
+
   return (
     <Container maxWidth="xl">
-      {/* <StyledFoldersWrapper>
-        <Typography variant="h5"> Folders</Typography>
-      </StyledFoldersWrapper>
-      <StyledFoldersWrapper>
-        <Typography variant="h5"> Files</Typography>
-      </StyledFoldersWrapper> */}
       <Table columns={columns} data={data} />
     </Container>
   );

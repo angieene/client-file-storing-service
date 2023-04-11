@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import LogoIcon from '../icons/header/LogoIcon';
+
+import LogoIcon from '../icons/LogoIcon';
 import { StyledStack, StyledTypography } from './style';
 
 const Logo: FC = () => {

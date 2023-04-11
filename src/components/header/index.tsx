@@ -1,10 +1,12 @@
 import React, { FC, MouseEvent } from 'react';
-import { Breadcrumbs, InputAdornment, Link, Typography } from '@mui/material';
+
 import { Search } from '@mui/icons-material';
+import { InputAdornment } from '@mui/material';
 
 import ActionsList from '../actions';
-import { StyledHeader, StyledStack, StyledTextField } from './style';
+import Breadcrumbs from '../breadcrumbs';
 import Logo from '../logo';
+import { StyledHeader, StyledStack, StyledTextField } from './style';
 
 interface HeaderProps {
   open: boolean;
@@ -40,21 +42,7 @@ const Header: FC<HeaderProps> = ({
           handleClick={handleClick}
         />
       </StyledStack>
-      <Breadcrumbs maxItems={2} color="inherit">
-        <Link underline="hover" color="inherit" href="#">
-          Home
-        </Link>
-        <Link underline="hover" color="inherit" href="#">
-          Catalog
-        </Link>
-        <Link underline="hover" color="inherit" href="#">
-          Accessories
-        </Link>
-        <Link underline="hover" color="inherit" href="#">
-          New Collection
-        </Link>
-        <Typography color="text.primary">Belts</Typography>
-      </Breadcrumbs>
+      <Breadcrumbs />
     </StyledHeader>
   );
 };

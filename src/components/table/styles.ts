@@ -1,13 +1,14 @@
 import React from 'react';
+
 import styled from 'styled-components';
 
 export const Styles = styled.div`
-  padding: 1rem;
+ padding: 1rem;
 
   table {
-    min-width: 1000px;
+    width: 100%;
     border-spacing: 0;
-    color: white;
+   
 
     tr {
       :last-child {
@@ -17,41 +18,21 @@ export const Styles = styled.div`
       }
     }
 
+    tbody tr:hover {
+       background: #0251d1;
+    }
+
     th,
     td {
-      text-align: start;
       margin: 0;
-      padding: 1rem;
+      padding: 0.5rem;
+      border-right: 1px solid white;
 
       :last-child {
         border-right: 0;
-        text-align: center;
-      }
-
-      :not(:last-child) {
-        width: 220px;
-      }
-
-      :first-child {
-        width: 50px;
-      }
-
-      input {
-        margin: -5px;
-        width: 100%;
-        padding: 5px;
-        font-size: inherit;
-        font-family: inherit;
       }
     }
-
-    th {
-      .add-new-user-btn {
-        font-size: 2rem;
-        background: none;
-        text-align: center;
-      }
-    }
+  }
   }
 
   button {
